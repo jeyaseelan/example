@@ -1,0 +1,2 @@
+class DatabaseController < ApplicationController
+end
