@@ -1,0 +1,235 @@
+/* Common Name,Email,State,City*/
+.nametextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: left;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+}
+/* Common Numbers Textbox*/
+
+input.navigationbutton
+{
+   font-size:12px;
+   font-family:Verdana, Arial, Helvetica, sans-serif;
+   font-weight:bold;
+   text-decoration:Underline;
+   text-align:left;
+   color:blue;
+   cursor: pointer;
+   background-color:#FFFFFF;
+   border-top-style:none;
+   border-top-color:#2878C0;
+   border-top-width:1px;
+   border-bottom-style:none;
+   border-bottom-color:#2878C0;
+   border-bottom-width:1px;
+   border-left-style:none;
+   border-left-color:#1858B8;
+   border-left-width:6px;
+   border-right-style:none;
+   border-right-color:#508CC0;
+   border-right-width:6px;
+}
+
+
+input.datelink
+{
+   
+   font-size:12px;
+   font-family:Verdana, Arial, Helvetica, sans-serif;
+   font-weight:bold;
+   text-decoration:none;
+   text-align:left;
+   color:blue;
+   cursor: pointer;
+   background-color:#FFFFFF;
+   border-top-style:none;
+   border-bottom-style:none;
+   border-left-style:none;
+   border-right-style:none;
+ 
+}
+
+.numbertextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: right;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+}
+
+
+.shortnametextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: left;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+	width: 105px;
+}
+/*State code,City code, Bank code*/
+.codetextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: right;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+    width: 85px;
+}
+
+.amtinpercenttextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: left;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+    width: 35px;
+}
+
+.showtextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: left;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+    width: 55px;
+}
+
+.confirmationtextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: right;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+    width: 90px;
+}
+
+.datetimetextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: left;
+	width: 80px;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+        /* max 10 digit*/
+}
+
+.classtextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: left;
+	width: 20px;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+    
+}
+
+.pintextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: right;
+	width: 50px;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+        /* max 6 digit*/
+}
+
+
+.seattextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: right;
+	width: 35px;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+    /* max 4 digit*/
+}
+
+.amounttextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: right;
+	width: 75px;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+}
+
+.mobiletextbox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: right;
+	width: 95px;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+    
+        /* max 13 digit*/
+}
+
+/* Common Name TextArea */
+.textarea {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: left;
+	border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+    height: 73px;
+    width: 225px;    
+}
+
+.comboboxtext {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: blue;		
+}
+
+
+.qtybox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: right;
+	width: 50px;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+}
+
+.skupriority {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: right;
+	width: 40px;
+    border: 1px solid #6297BC;
+    padding-top:2px;
+    padding-bottom:2px;
+}

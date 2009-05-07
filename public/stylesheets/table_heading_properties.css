@@ -1,0 +1,318 @@
+/*-------------------------*/
+
+  /*Standard UI for Name , Sno
+  
+/*-------------------------*/
+.snoth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 4%;
+	
+}
+
+.nameth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 20%;
+}
+
+.name1th {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 15%;
+}
+
+.shortnameth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 12%;
+}
+.descriptionth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 20%;
+}
+
+.mobileth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 11%;
+}
+
+.addressth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 20%;
+}
+.emailth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 15%;
+}
+.priorityth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 8%;
+}
+
+
+
+.dateth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 10%;
+}
+
+.timeth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 10%;
+}
+
+.actionth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 15%;
+}
+
+.todoth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 6%;
+}
+/*------------------mPowerCinema------------------*/
+
+/*------------------confirmation number(10 digit)------------------*/
+.confirmnoth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 12%;
+}
+/*------------------Show (morn,eve)------------------*/
+.showth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 8%;
+}
+/*------------------Class ---I,II------------------*/
+.classth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 5%;
+}
+/*------------------Ticket  -- Number of Ticket------------------*/
+.ticketth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 4%;
+}
+/*------------------Amount------------------*/
+.amountth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 6%;
+}
+/*------------------Status -- Not issued , Issued------------------*/
+.statusth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 8%;
+}
+
+.cityth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 15%;
+}
+
+
+
+/********************JNJ Category****************************/
+
+.categoryth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 8%;
+}
+
+/********************Stock Norm****************************/
+
+.stocknormth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 8%;
+}
+
+/********************Name action****************************/
+
+.nameactionth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+}
+
+/********************Name action****************************/
+
+.codeth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 8%;
+}
+
+/********************Active****************************/
+
+.activeth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 6%;
+}
+
+/********************Active****************************/
+
+.onlineaccessth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 6%;
+}
+
+.amountfloatth {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #3677B9;
+	font-size:14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	width: 10%;
+}
+
+
