@@ -1,0 +1,1282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mPowerSales - Empowering your work force</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <%= javascript_include_tag "prototype" %>
+    <%= javascript_include_tag "livevalidation_prototype" %>
+    <%= javascript_include_tag "datepickercontrol" %>
+    <%= stylesheet_link_tag "common", :media => "all" %>
+    <%= stylesheet_link_tag "content", :media => "all" %>
+    <%= stylesheet_link_tag "table_content_properties", :media => "all" %>
+    <%= stylesheet_link_tag "table_heading_properties", :media => "all" %>
+    <%= stylesheet_link_tag "form_attributes_properties", :media => "all" %>
+    <%= stylesheet_link_tag "datepickercontrol_mozilla", :media => "all" %>
+    <%= stylesheet_link_tag "livevalidation", :media => "all" %>
+     
+
+<style type="text/css">
+.one
+{
+border-style: none;
+background-color: lightgreen;
+} 
+div.menuBar,
+div.menuBar a.menuButton,
+div.menu,
+div.menu a.menuItem {
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-size: 8pt;
+  font-style: normal;
+  font-weight: normal;
+  color: #000000;
+}
+
+div.menuBar {
+  background-color: #2465A7;
+  border: 2px outset #2465A7;
+  padding: 4px 2px 4px 2px;
+  text-align: left;
+  position: absolute;
+  top: 5px;
+  align: left;
+  left: 0px;
+}
+
+div.menuBar a.menuButton {
+  background-color: transparent;
+  border: 1px solid #e0e0e0;
+  color: #FFFFFF;
+  cursor: default;
+  left: 0px;
+  margin: 1px;
+  padding: 2px 6px 2px 6px;
+  position: relative;
+  text-decoration: none;
+  top: 0px;
+}
+
+div.menuBar a.menuButton:hover {
+  background-color: transparent;
+  border: 1px outset #e0e0e0;
+  color: #000000;
+}
+
+div.menuBar a.menuButtonActive,
+div.menuBar a.menuButtonActive:hover {
+  background-color: #A50202;
+  border: 1px inset #e0e0e0;
+  color: #ffffff;
+  left: 1px;
+  top: 1px;
+}
+
+div.menu {
+  background-color: #075E8B;
+  border: 2px outset #e0e0e0;
+  left: 0px;
+  padding: 0px 1px 1px 0px;
+  position: absolute;
+  top: 0px;
+  visibility: hidden;
+  z-index: 101;
+}
+
+div.menu a.menuItem {
+  color: #FFFFFF;
+  cursor: default;
+  display: block;
+  padding: 3px 1em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+div.menu a.menuItem:hover, div.menu a.menuItemHighlight {
+  background-color: #6C9EC8;
+  color: #ffffff;
+}
+
+div.menu a.menuItem span.menuItemText {}
+
+div.menu a.menuItem span.menuItemArrow {
+  margin-right: -.75em;
+}
+
+div.menu div.menuItemSep {
+  border: 1px inset #e0e0e0;
+  margin: 4px 2px;
+}
+
+</style>
+<script type="text/javascript">//<![CDATA[
+
+//*****************************************************************************
+// MENU.
+//*****************************************************************************
+
+//----------------------------------------------------------------------------
+// Code to determine the browser and version.
+//----------------------------------------------------------------------------
+
+function Browser() {
+
+  var ua, s, i;
+
+  this.isIE    = false;  // Internet Explorer
+  this.isOP    = false;  // Opera
+  this.isNS    = false;  // Netscape
+  this.version = null;
+
+  ua = navigator.userAgent;
+
+  s = "Opera";
+  if ((i = ua.indexOf(s)) >= 0) {
+    this.isOP = true;
+    this.version = parseFloat(ua.substr(i + s.length));
+    return;
+  }
+
+  s = "Netscape6/";
+  if ((i = ua.indexOf(s)) >= 0) {
+    this.isNS = true;
+    this.version = parseFloat(ua.substr(i + s.length));
+    return;
+  }
+
+  // Treat any other "Gecko" browser as Netscape 6.1.
+
+  s = "Gecko";
+  if ((i = ua.indexOf(s)) >= 0) {
+    this.isNS = true;
+    this.version = 6.1;
+    return;
+  }
+
+  s = "MSIE";
+  if ((i = ua.indexOf(s))) {
+    this.isIE = true;
+    this.version = parseFloat(ua.substr(i + s.length));
+    return;
+  }
+}
+
+var browser = new Browser();
+
+//----------------------------------------------------------------------------
+// Code for handling the menu bar and active button.
+//----------------------------------------------------------------------------
+
+var activeButton = null;
+
+/* [MODIFIED] This code commented out, not needed for activate/deactivate
+   on mouseover.
+
+// Capture mouse clicks on the page so any active button can be
+// deactivated.
+
+if (browser.isIE)
+  document.onmousedown = pageMousedown;
+else
+  document.addEventListener("mousedown", pageMousedown, true);
+
+function pageMousedown(event) {
+
+  var el;
+
+  // If there is no active button, exit.
+
+  if (activeButton == null)
+    return;
+
+  // Find the element that was clicked on.
+
+  if (browser.isIE)
+    el = window.event.srcElement;
+  else
+    el = (event.target.tagName ? event.target : event.target.parentNode);
+
+  // If the active button was clicked on, exit.
+
+  if (el == activeButton)
+    return;
+
+  // If the element is not part of a menu, reset and clear the active
+  // button.
+
+  if (getContainerWith(el, "DIV", "menu") == null) {
+    resetButton(activeButton);
+    activeButton = null;
+  }
+}
+
+[END MODIFIED] */
+
+function buttonClick(event, menuId) {
+
+  var button;
+
+  // Get the target button element.
+
+  if (browser.isIE)
+    button = window.event.srcElement;
+  else
+    button = event.currentTarget;
+
+  // Blur focus from the link to remove that annoying outline.
+
+  button.blur();
+
+  // Associate the named menu to this button if not already done.
+  // Additionally, initialize menu display.
+
+  if (button.menu == null) {
+    button.menu = document.getElementById(menuId);
+    if (button.menu.isInitialized == null)
+      menuInit(button.menu);
+  }
+
+  // [MODIFIED] Added for activate/deactivate on mouseover.
+
+  // Set mouseout event handler for the button, if not already done.
+
+  if (button.onmouseout == null)
+    button.onmouseout = buttonOrMenuMouseout;
+
+  // Exit if this button is the currently active one.
+
+  if (button == activeButton)
+    return false;
+
+  // [END MODIFIED]
+
+  // Reset the currently active button, if any.
+
+  if (activeButton != null)
+    resetButton(activeButton);
+
+  // Activate this button, unless it was the currently active one.
+
+  if (button != activeButton) {
+    depressButton(button);
+    activeButton = button;
+  }
+  else
+    activeButton = null;
+
+  return false;
+}
+
+function buttonMouseover(event, menuId) {
+
+  var button;
+
+  // [MODIFIED] Added for activate/deactivate on mouseover.
+
+  // Activates this button's menu if no other is currently active.
+
+  if (activeButton == null) {
+    buttonClick(event, menuId);
+    return;
+  }
+
+  // [END MODIFIED]
+
+  // Find the target button element.
+
+  if (browser.isIE)
+    button = window.event.srcElement;
+  else
+    button = event.currentTarget;
+
+  // If any other button menu is active, make this one active instead.
+
+  if (activeButton != null && activeButton != button)
+    buttonClick(event, menuId);
+}
+
+function depressButton(button) {
+
+  var x, y;
+
+  // Update the button's style class to make it look like it's
+  // depressed.
+
+  button.className += " menuButtonActive";
+
+  // [MODIFIED] Added for activate/deactivate on mouseover.
+
+  // Set mouseout event handler for the button, if not already done.
+
+  if (button.onmouseout == null)
+    button.onmouseout = buttonOrMenuMouseout;
+  if (button.menu.onmouseout == null)
+    button.menu.onmouseout = buttonOrMenuMouseout;
+
+  // [END MODIFIED]
+
+  // Position the associated drop down menu under the button and
+  // show it.
+
+  x = getPageOffsetLeft(button);
+  y = getPageOffsetTop(button) + button.offsetHeight;
+
+  // For IE, adjust position.
+
+  if (browser.isIE) {
+    x += button.offsetParent.clientLeft;
+    y += button.offsetParent.clientTop;
+  }
+
+  button.menu.style.left = x + "px";
+  button.menu.style.top  = y + "px";
+  button.menu.style.visibility = "visible";
+
+  // For IE; size, position and show the menu's IFRAME as well.
+
+  if (button.menu.iframeEl != null)
+  {
+    button.menu.iframeEl.style.left = button.menu.style.left;
+    button.menu.iframeEl.style.top  = button.menu.style.top;
+    button.menu.iframeEl.style.width  = button.menu.offsetWidth + "px";
+    button.menu.iframeEl.style.height = button.menu.offsetHeight + "px";
+    button.menu.iframeEl.style.display = "";
+  }
+}
+
+function resetButton(button) {
+
+  // Restore the button's style class.
+
+  removeClassName(button, "menuButtonActive");
+
+  // Hide the button's menu, first closing any sub menus.
+
+  if (button.menu != null) {
+    closeSubMenu(button.menu);
+    button.menu.style.visibility = "hidden";
+
+    // For IE, hide menu's IFRAME as well.
+
+    if (button.menu.iframeEl != null)
+      button.menu.iframeEl.style.display = "none";
+  }
+}
+
+//----------------------------------------------------------------------------
+// Code to handle the menus and sub menus.
+//----------------------------------------------------------------------------
+
+function menuMouseover(event) {
+
+  var menu;
+
+  // Find the target menu element.
+
+  if (browser.isIE)
+    menu = getContainerWith(window.event.srcElement, "DIV", "menu");
+  else
+    menu = event.currentTarget;
+
+  // Close any active sub menu.
+
+  if (menu.activeItem != null)
+    closeSubMenu(menu);
+}
+
+function menuItemMouseover(event, menuId) {
+
+  var item, menu, x, y;
+
+  // Find the target item element and its parent menu element.
+
+  if (browser.isIE)
+    item = getContainerWith(window.event.srcElement, "A", "menuItem");
+  else
+    item = event.currentTarget;
+  menu = getContainerWith(item, "DIV", "menu");
+
+  // Close any active sub menu and mark this one as active.
+
+  if (menu.activeItem != null)
+    closeSubMenu(menu);
+  menu.activeItem = item;
+
+  // Highlight the item element.
+
+  item.className += " menuItemHighlight";
+
+  // Initialize the sub menu, if not already done.
+
+  if (item.subMenu == null) {
+    item.subMenu = document.getElementById(menuId);
+    if (item.subMenu.isInitialized == null)
+      menuInit(item.subMenu);
+  }
+
+  // [MODIFIED] Added for activate/deactivate on mouseover.
+
+  // Set mouseout event handler for the sub menu, if not already done.
+
+  if (item.subMenu.onmouseout == null)
+    item.subMenu.onmouseout = buttonOrMenuMouseout;
+
+  // [END MODIFIED]
+
+  // Get position for submenu based on the menu item.
+
+  x = getPageOffsetLeft(item) + item.offsetWidth;
+  y = getPageOffsetTop(item);
+
+  // Adjust position to fit in view.
+
+  var maxX, maxY;
+
+  if (browser.isIE) {
+    maxX = Math.max(document.documentElement.scrollLeft, document.body.scrollLeft) +
+      (document.documentElement.clientWidth != 0 ? document.documentElement.clientWidth : document.body.clientWidth);
+    maxY = Math.max(document.documentElement.scrollTop, document.body.scrollTop) +
+      (document.documentElement.clientHeight != 0 ? document.documentElement.clientHeight : document.body.clientHeight);
+  }
+  if (browser.isOP) {
+    maxX = document.documentElement.scrollLeft + window.innerWidth;
+    maxY = document.documentElement.scrollTop  + window.innerHeight;
+  }
+  if (browser.isNS) {
+    maxX = window.scrollX + window.innerWidth;
+    maxY = window.scrollY + window.innerHeight;
+  }
+  maxX -= item.subMenu.offsetWidth;
+  maxY -= item.subMenu.offsetHeight;
+
+  if (x > maxX)
+    x = Math.max(0, x - item.offsetWidth - item.subMenu.offsetWidth
+      + (menu.offsetWidth - item.offsetWidth));
+  y = Math.max(0, Math.min(y, maxY));
+
+  // Position and show the sub menu.
+
+  item.subMenu.style.left       = x + "px";
+  item.subMenu.style.top        = y + "px";
+  item.subMenu.style.visibility = "visible";
+
+  // For IE; size, position and display the menu's IFRAME as well.
+
+  if (item.subMenu.iframeEl != null)
+  {
+    item.subMenu.iframeEl.style.left    = item.subMenu.style.left;
+    item.subMenu.iframeEl.style.top     = item.subMenu.style.top;
+    item.subMenu.iframeEl.style.width   = item.subMenu.offsetWidth + "px";
+    item.subMenu.iframeEl.style.height  = item.subMenu.offsetHeight + "px";
+    item.subMenu.iframeEl.style.display = "";
+  }
+
+  // Stop the event from bubbling.
+
+  if (browser.isIE)
+    window.event.cancelBubble = true;
+  else
+    event.stopPropagation();
+}
+
+function closeSubMenu(menu) {
+
+  if (menu == null || menu.activeItem == null)
+    return;
+
+  // Recursively close any sub menus.
+
+  if (menu.activeItem.subMenu != null) {
+    closeSubMenu(menu.activeItem.subMenu);
+    menu.activeItem.subMenu.style.visibility = "hidden";
+
+    // For IE, hide the sub menu's IFRAME as well.
+
+    if (menu.activeItem.subMenu.iframeEl != null)
+      menu.activeItem.subMenu.iframeEl.style.display = "none";
+
+    menu.activeItem.subMenu = null;
+  }
+
+  // Deactivate the active menu item.
+
+  removeClassName(menu.activeItem, "menuItemHighlight");
+  menu.activeItem = null;
+}
+
+// [MODIFIED] Added for activate/deactivate on mouseover. Handler for mouseout
+// event on buttons and menus.
+
+function buttonOrMenuMouseout(event) {
+
+  var el;
+
+  // If there is no active button, exit.
+
+  if (activeButton == null)
+    return;
+
+  // Find the element the mouse is moving to.
+
+  if (browser.isIE)
+    el = window.event.toElement;
+  else if (event.relatedTarget != null)
+      el = (event.relatedTarget.tagName ? event.relatedTarget : event.relatedTarget.parentNode);
+
+  // If the element is not part of a menu, reset the active button.
+
+  if (getContainerWith(el, "DIV", "menu") == null) {
+    resetButton(activeButton);
+    activeButton = null;
+  }
+}
+
+// [END MODIFIED]
+
+//----------------------------------------------------------------------------
+// Code to initialize menus.
+//----------------------------------------------------------------------------
+
+function menuInit(menu) {
+
+  var itemList, spanList;
+  var textEl, arrowEl;
+  var itemWidth;
+  var w, dw;
+  var i, j;
+
+  // For IE, replace arrow characters.
+
+  if (browser.isIE) {
+    menu.style.lineHeight = "2.5ex";
+    spanList = menu.getElementsByTagName("SPAN");
+    for (i = 0; i < spanList.length; i++)
+      if (hasClassName(spanList[i], "menuItemArrow")) {
+        spanList[i].style.fontFamily = "Webdings";
+        spanList[i].firstChild.nodeValue = "4";
+      }
+  }
+
+  // Find the width of a menu item.
+
+  itemList = menu.getElementsByTagName("A");
+  if (itemList.length > 0)
+    itemWidth = itemList[0].offsetWidth;
+  else
+    return;
+
+  // For items with arrows, add padding to item text to make the
+  // arrows flush right.
+
+  for (i = 0; i < itemList.length; i++) {
+    spanList = itemList[i].getElementsByTagName("SPAN");
+    textEl  = null;
+    arrowEl = null;
+    for (j = 0; j < spanList.length; j++) {
+      if (hasClassName(spanList[j], "menuItemText"))
+        textEl = spanList[j];
+      if (hasClassName(spanList[j], "menuItemArrow"))
+        arrowEl = spanList[j];
+    }
+    if (textEl != null && arrowEl != null) {
+      textEl.style.paddingRight = (itemWidth 
+        - (textEl.offsetWidth + arrowEl.offsetWidth)) + "px";
+      // For Opera, remove the negative right margin to fix a display bug.
+      if (browser.isOP)
+        arrowEl.style.marginRight = "0px";
+    }
+  }
+
+  // Fix IE hover problem by setting an explicit width on first item of
+  // the menu.
+
+  if (browser.isIE) {
+    w = itemList[0].offsetWidth;
+    itemList[0].style.width = w + "px";
+    dw = itemList[0].offsetWidth - w;
+    w -= dw;
+    itemList[0].style.width = w + "px";
+  }
+
+  // Fix the IE display problem (SELECT elements and other windowed controls
+  // overlaying the menu) by adding an IFRAME under the menu.
+
+  if (browser.isIE) {
+    var iframeEl = document.createElement("IFRAME");
+    iframeEl.frameBorder = 0;
+    iframeEl.src = "javascript:;";
+    iframeEl.style.display = "none";
+    iframeEl.style.position = "absolute";
+    iframeEl.style.filter = "progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)";
+    menu.iframeEl = menu.parentNode.insertBefore(iframeEl, menu);
+  }
+
+  // Mark menu as initialized.
+
+  menu.isInitialized = true;
+}
+
+//----------------------------------------------------------------------------
+// General utility functions.
+//----------------------------------------------------------------------------
+
+function getContainerWith(node, tagName, className) {
+
+  // Starting with the given node, find the nearest containing element
+  // with the specified tag name and style class.
+
+  while (node != null) {
+    if (node.tagName != null && node.tagName == tagName &&
+        hasClassName(node, className))
+      return node;
+    node = node.parentNode;
+  }
+
+  return node;
+}
+
+function hasClassName(el, name) {
+
+  var i, list;
+
+  // Return true if the given element currently has the given class
+  // name.
+
+  list = el.className.split(" ");
+  for (i = 0; i < list.length; i++)
+    if (list[i] == name)
+      return true;
+
+  return false;
+}
+
+function removeClassName(el, name) {
+
+  var i, curList, newList;
+
+  if (el.className == null)
+    return;
+
+  // Remove the given class name from the element's className property.
+
+  newList = new Array();
+  curList = el.className.split(" ");
+  for (i = 0; i < curList.length; i++)
+    if (curList[i] != name)
+      newList.push(curList[i]);
+  el.className = newList.join(" ");
+}
+
+function getPageOffsetLeft(el) {
+
+  var x;
+
+  // Return the x coordinate of an element relative to the page.
+
+  x = el.offsetLeft;
+  if (el.offsetParent != null)
+    x += getPageOffsetLeft(el.offsetParent);
+
+  return x;
+}
+
+function getPageOffsetTop(el) {
+
+  var y;
+
+  // Return the x coordinate of an element relative to the page.
+
+  y = el.offsetTop;
+  if (el.offsetParent != null)
+    y += getPageOffsetTop(el.offsetParent);
+
+  return y;
+}
+
+//]]></script>
+</head>
+<body>
+<!--<img src="/images/mt.gif"/>-->
+
+<!-- Menu bar #1. -->
+<!-- Main menus. -->
+<div id="menu1" class="menu"
+     onmouseover="menuMouseover(event)">
+<a class="menuItem" href="blank.html">Menu 1 Item 1</a>
+<a class="menuItem" href="blank.html">Menu 1 Item 2</a>
+<a class="menuItem" href="blank.html">Menu 1 Item 3</a>
+<a class="menuItem" href="blank.html"
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'menu1_4');"
+><span class="menuItemText">Menu 1 Item 4</span><span class="menuItemArrow">&#9654;</span></a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Menu 1 Item 5</a>
+</div>
+
+<div id="menu2" class="menu">
+<a class="menuItem" href="blank.html">Menu 2 Item 1</a>
+<a class="menuItem" href="blank.html">Menu 2 Item 2</a>
+<a class="menuItem" href="blank.html">Menu 2 Item 3</a>
+</div>
+
+<div id="menu3" class="menu"
+     onmouseover="menuMouseover(event)">
+<a class="menuItem" href="blank.html">Menu 3 Item 1</a>
+<a class="menuItem" href="blank.html">Menu 3 Item 2</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html"
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'menu3_3');"
+><span class="menuItemText">Menu 3 Item 3</span><span class="menuItemArrow">&#9654;</span></a>
+<a class="menuItem" href="blank.html"
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'menu3_4');"
+><span class="menuItemText">Menu 3 Item 4</span><span class="menuItemArrow">&#9654;</span></a>
+<a class="menuItem" href="blank.html">Menu 3 Item 5</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Menu 3 Item 6</a>
+</div>
+
+<div id="menu4" class="menu">
+<a class="menuItem" href="blank.html">Menu 4 Item 1</a>
+<a class="menuItem" href="blank.html">Menu 4 Item 2</a>
+<a class="menuItem" href="blank.html">Menu 4 Item 3</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Menu 4 Item 4</a>
+</div>
+
+<!-- Sub menus for menu 1. -->
+
+<div id="menu1_4" class="menu"
+     onmouseover="menuMouseover(event)">
+<a class="menuItem" href="blank.html">Menu 1-4 Item 1</a>
+<a class="menuItem" href="blank.html">Menu 1-4 Item 2</a>
+<a class="menuItem" href="blank.html"
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'menu1_4_3');"
+><span class="menuItemText">Menu 1-4 Item 3</span><span class="menuItemArrow">&#9654;</span></a>
+<a class="menuItem" href="blank.html">Menu 1-4 Item 4</a>
+</div>
+
+<div id="menu1_4_3" class="menu"
+     onmouseover="menuMouseover(event)">
+<a class="menuItem" href="blank.html">Menu 1-4-3 Item 1</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Menu 1-4-3 Item 2</a>
+<a class="menuItem" href="blank.html">Menu 1-4-3 Item 3</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html"
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'menu1_4_3_4');"
+><span class="menuItemText">Menu 1-4-3 Item 4</span><span class="menuItemArrow">&#9654;</span></a>
+</div>
+
+<div id="menu1_4_3_4" class="menu">
+<a class="menuItem" href="blank.html">Menu 1-4-3-4 Item 1</a>
+<a class="menuItem" href="blank.html">Menu 1-4-3-4 Item 2</a>
+<a class="menuItem" href="blank.html">Menu 1-4-3-4 Item 3</a>
+</div>
+
+<!-- Sub menus for menu 3. -->
+
+<div id="menu3_3" class="menu">
+<a class="menuItem" href="blank.html">Menu 3-3 Item 1</a>
+<a class="menuItem" href="blank.html">Menu 3-3 Item 2</a>
+</div>
+
+<div id="menu3_4" class="menu">
+<a class="menuItem" href="blank.html">Menu 3-4 Item 1</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Menu 3-4 Item 2</a>
+<a class="menuItem" href="blank.html">Menu 3-4 Item 3</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Menu 3-4 Item 4</a>
+<a class="menuItem" href="blank.html">Menu 3-4 Item 5</a>
+</div>
+
+<p/>
+
+<!-- Menu bar #2. -->
+<div class="menuBar" style="width:98.6%;">
+<!--
+ <a class="menuButton"  href=""
+    onclick="buttonClick(event, 'viewMenu');"   
+    onmouseover="buttonMouseover(event, 'viewMenu');">
+MBQ </a> -->
+
+ <a class="menuButton"  href="/database/index"
+    onclick="buttonClick(event, 'fileMenu');"   
+    onmouseover="buttonMouseover(event, 'editMenu');">
+Report Home </a>
+<!--<a class="menuButton"  href="/database/create_db"
+    onclick="buttonClick(event, 'fileMenu');"   
+    onmouseover="buttonMouseover(event, 'editMenu');">
+create_db</a>-->
+<a class="menuButton"  href="/database/list_db"
+    onclick="buttonClick(event, 'fileMenu');"   
+    onmouseover="buttonMouseover(event, 'editMenu');">
+list_db</a>
+<a class="menuButton"  href="/database/list_users"
+    onclick="buttonClick(event, 'fileMenu');"   
+    onmouseover="buttonMouseover(event, 'editMenu');">
+list_users</a>
+<a class="menuButton"  href="/database/create_tables"
+    onclick="buttonClick(event, 'fileMenu');"   
+    onmouseover="buttonMouseover(event, 'editMenu');">
+create_tables</a>
+
+<a class="menuButton"  href="/database/main_frame"
+    onclick="buttonClick(event, 'fileMenu');"   
+    onmouseover="buttonMouseover(event, 'editMenu');">
+main_frame</a>
+ <a class="menuButton"  href="/new_auth/change_password"
+    onclick="buttonClick(event, 'fileMenu');"   
+    onmouseover="buttonMouseover(event, 'editMenu');">
+Change Password</a>
+    <a class="menuButton"  href="/new_auth/logout"
+    onclick="buttonClick(event, 'helpMenu');"
+    onmouseover="buttonMouseover(event, 'helpMenu');">
+Logout</a>
+
+
+
+</div>
+<!-- Main menus. -->
+
+<div id="fileMenu" class="menu"
+     onmouseover="menuMouseover(event)">
+<!--<a class="menuItem" href="blank.html">Srinoj kumar</a>
+<a class="menuItem" href=""
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'fileMenu2');"
+><span class="menuItemText">File Menu Item 2</span><span class="menuItemArrow">&#9654;</span></a>
+<a class="menuItem" href="blank.html">File Menu Item 3</a>
+<a class="menuItem" href="blank.html">File Menu Item 4</a>
+<a class="menuItem" href="blank.html">File Menu Item 5</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">File Menu Item 6</a>-->
+</div>
+
+<div id="editMenu" class="menu"
+     onmouseover="menuMouseover(event)">
+<!--<a class="menuItem" href="blank.html">Edit Menu Item 1</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Edit Menu Item 2</a>
+<a class="menuItem" href=""
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'editMenu3');"
+><span class="menuItemText">Edit Menu Item 3</span><span class="menuItemArrow">&#9654;</span></a>
+<a class="menuItem" href="blank.html">Edit Menu Item 4</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Edit Menu Item 5</a>-->
+</div>
+
+<div id="viewMenu" class="menu">
+<a class="menuItem" href="/dsm_reports/outlet_wise_mbq">Outlet wise MBQ</a>
+<a class="menuItem" href="/dsm_reports/sku_wise_mbq">SKU wise MBQ</a>
+</div>
+
+<div id="faceupMenu" class="menu">
+<a class="menuItem" href="/dsm_reports/rpt_outlet_faceup_sku_wise">Face Ups - SKU Wise</a>
+<!--<a class="menuItem" href="/dsm_reports/outlet_faceup_outlet_wise">Outlet Face Ups Outlet Wise</a>-->
+</div>
+
+<div id="expMenu" class="menu">
+<a class="menuItem" href="/dsm_reports/rpt_expiry_damage">Expiry / Damages - Date </a>
+<!-- <a class="menuItem" href="/dsm_reports/rpt_cumulative_expiry_damage">Expiry / Damages - Cumulative </a> -->
+</div>
+
+<div id="stkMenu" class="menu">
+<a class="menuItem" href="/dsm_reports/rpt_stocking_nonstocking_outlet">Stocking & Non Stocking Outlets Wise Date</a>
+<!-- <a class="menuItem" href="/dsm_reports/rpt_history_stocking_nonstocking_outlet">Stocking & Non Stocking Outlets Wise History</a> -->
+</div>
+
+<div id="crsMenu" class="menu">
+<a class="menuItem" href="/dsm_reports/rpt_outlets_under_crs_noncrs">Outlets under CRS - Date</a>
+<a class="menuItem" href="/dsm_reports/rpt_history_outlets_under_crs_noncrs">Outlets under CRS - History</a>
+</div>
+
+<div id="stockMenu" class="menu">
+<a class="menuItem" href="/dsm_reports/rpt_sku_stock_position">Stock Position - SKU Wise Date</a>
+<a class="menuItem" href="/dsm_reports/rpt_outlet_stock_position">Stock Position - Outlet Wise Date</a>
+<!-- <a class="menuItem" href="/dsm_reports/rpt_history_sku_stock_position">Stock Position - SKU Wise History</a> -->
+<!-- <a class="menuItem" href="/dsm_reports/rpt_history_outlet_stock_position">Stock Position - Outlet Wise History</a> -->
+</div>
+
+<div id="orderMenu" class="menu">
+<a class="menuItem" href="/dsm_reports/rpt_sku_wise_order_generate">Orders - SKU Wise Date</a>
+<a class="menuItem" href="/dsm_reports/rpt_outlet_wise_order_generate">Orders - Outlet Wise Date</a>
+<a class="menuItem" href="/dsm_reports/rpt_order_generate">Orders - Generate</a>
+<a class="menuItem" href="/dsm_reports/rpt_order_placed_nonplaced">Orders - Count</a>
+<a class="menuItem" href="/dsm_reports/rpt_order_generate_cumulative">Orders - Generate Cumulative</a>
+<!--<a class="menuItem" href="/dsm_reports/rpt_stock_position_count_cumulative">Orders - Count Cumulative</a>-->
+<a class="menuItem" href="/dsm_reports/rpt_order_placed_nonplaced_cumulative">Orders - Count Cumulative</a>
+<a class="menuItem" href="/dsm_reports/rpt_order_supplied_date_wise">Orders - Supplied Date Wise </a> 
+<!-- <a class="menuItem" href="/dsm_reports/outlet_history_wise_order_generate">Orders - Outlet Wise History</a> -->
+<!-- <a class="menuItem" href="/dsm_reports/sku_cummulative_wise_order_generate">Orders - SKU Wise Cumulative</a> -->
+<!-- <a class="menuItem" href="/dsm_reports/outlet_cummulative_wise_order_generate">Orders - Outlet Wise Cumulative</a> -->
+
+</div>
+
+<div id="toolsMenu" class="menu"
+     onmouseover="menuMouseover(event)">
+<!--<a class="menuItem" href=""
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'toolsMenu1');"
+><span class="menuItemText">Tools Menu Item 1</span><span class="menuItemArrow">&#9654;</span></a>
+<a class="menuItem" href="blank.html">Tools Menu Item 2</a>
+<a class="menuItem" href="blank.html">Tools Menu Item 3</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href=""
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'toolsMenu4');"
+><span class="menuItemText">Tools Menu Item 4</span><span class="menuItemArrow">&#9654;</span></a>
+<a class="menuItem" href="blank.html">Tools Menu Item 5</a>-->
+</div>
+
+<div id="optionsMenu" class="menu">
+<!--<a class="menuItem" href="blank.html">Options Menu Item 1</a>
+<a class="menuItem" href="blank.html">Options Menu Item 2</a>
+<a class="menuItem" href="blank.html">Options Menu Item 3</a>-->
+</div>
+
+<div id="helpMenu" class="menu">
+<!--<a class="menuItem" href="blank.html">Help Menu Item 1</a>
+<a class="menuItem" href="blank.html">Help Menu Item 2</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Help Menu Item 3</a>-->
+</div>
+
+<!-- File sub menus. -->
+
+<div id="fileMenu2" class="menu">
+<a class="menuItem" href="blank.html">File Menu 2 Item 1</a>
+<a class="menuItem" href="blank.html">File Menu 2 Item 2</a>
+</div>
+
+<!-- Edit sub menus. -->
+
+<div id="editMenu3" class="menu"
+     onmouseover="menuMouseover(event)">
+<a class="menuItem" href="blank.html">Edit Menu 3 Item 1</a>
+<a class="menuItem" href="blank.html">Edit Menu 3 Item 2</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href=""
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'editMenu3_3');"
+><span class="menuItemText">Edit Menu 3 Item 3</span><span class="menuItemArrow">&#9654;</span></a>
+<a class="menuItem" href="blank.html">Edit Menu 3 Item 4</a>
+</div>
+
+<div id="editMenu3_3" class="menu">
+<a class="menuItem" href="blank.html">Edit Menu 3-3 Item 1</a>
+<a class="menuItem" href="blank.html">Edit Menu 3-3 Item 2</a>
+<a class="menuItem" href="blank.html">Edit Menu 3-3 Item 3</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Edit Menu 3-3 Item 4</a>
+</div>
+
+<!-- Tools sub menus. -->
+
+<div id="toolsMenu1" class="menu">
+<a class="menuItem" href="blank.html">Tools Menu 1 Item 1</a>
+<a class="menuItem" href="blank.html">Tools Menu 1 Item 2</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Tools Menu 1 Item 3</a>
+<a class="menuItem" href="blank.html">Tools Menu 1 Item 4</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="blank.html">Tools Menu 1 Item 5</a>
+</div>
+
+<div id="toolsMenu4" class="menu"
+     onmouseover="menuMouseover(event)">
+<a class="menuItem" href="blank.html">Tools Menu 4 Item 1</a>
+<a class="menuItem" href="blank.html">Tools Menu 4 Item 2</a>
+<a class="menuItem" href="blank.html"
+   onclick="return false;"
+   onmouseover="menuItemMouseover(event, 'toolsMenu4_3');"
+><span class="menuItemText">Tools Menu 4 Item 3</span><span class="menuItemArrow">&#9654;</span></a>
+</div>
+
+
+<div id="main">
+<br>
+ <table width="100%">
+ <tr><td><%= @content_for_layout %></td></tr>
+ </table>
+ </div>
+
+</body>
+</html>
+
+<script>
+	function validate_form_edit()
+	{
+	  
+	  validedit=true;
+	  a=document.forms["demoedit"].DPC_calendar1;
+      y=<%=Time.now.strftime('%Y').to_i%>
+      m=<%=(Time.now.strftime('%m').to_i)%>
+      d=<%=Time.now.strftime('%d').to_i%>
+      var sdt = document.forms["demoedit"].DPC_calendar;
+      var edt = document.forms["demoedit"].DPC_calendar1;
+      var sd=new String(sdt.value);
+      var ed=new String(edt.value);
+      if (sd.substring(0,1) == 0) {
+	  	var sdate = parseInt(sd.substring(1, 2));
+	  }
+	  else {
+	  	var sdate = parseInt(sd.substring(0, 2));
+	  }
+      if (ed.substring(0,1) == 0) {
+	  	var edate = parseInt(ed.substring(1, 2));
+	  }
+	  else {
+	  	var edate = parseInt(ed.substring(0, 2));
+	  }
+	  
+	  if (sd.substring(3,4) == 0) {
+	 
+	  	var smonth = parseInt(sd.substring(4, 5));
+	  	
+	  }
+	  else {
+	  	var smonth = parseInt(sd.substring(3, 5));
+	  }
+      if (ed.substring(3,4) == 0) {
+	  	var emonth = parseInt(ed.substring(4, 5));
+	  }
+	  else {
+	  	var emonth = parseInt(ed.substring(3, 5));
+	  }
+	  
+	  
+      
+      var syear=parseInt(sd.substring(6,10));
+      var eyear=parseInt(ed.substring(6,10));
+      
+      
+var test=true;
+var result="";
+var result1="";
+var result2="";
+      
+            if(syear>eyear)
+   {
+    test=false;
+    result="Dont select From date greater than  To date !"
+
+   }
+
+   else if(syear == eyear) 
+
+  {
+     
+    if(smonth>emonth)
+      
+       {
+          test=false;
+          result="Dont select From date greater than  To date !"
+
+       }
+    
+    else if(smonth == emonth)
+         {
+
+            if(sdate > edate)
+            { 
+              test=false;
+              result="Dont select From date greater than  To date !";
+
+            }
+            
+
+         }
+
+         else
+          {
+            
+
+          }
+
+
+
+  }
+
+else
+ 
+	{
+            
+
+	}
+
+
+
+
+  if(syear>y)
+   {
+
+       
+                test=false;
+                result1=result1 +"Dont select From date as   future date !";
+
+
+   }
+
+  
+   
+   
+    else if(y == syear) 
+
+  {
+     
+    if(smonth>m)
+      
+       {
+                  test=false;
+                result1=result1 +"Dont select From date as   future date !";
+       }
+    
+  
+    
+    
+    if(m == smonth)
+         {
+
+            if( sdate>d)
+            { 
+               test=false;
+                result1=result1 +"Dont select From date as   future date !";
+
+            }
+            
+
+         }
+
+         else
+          {
+            
+              
+          }
+
+
+
+  }
+
+else
+ 
+	{
+              
+
+	}
+
+
+
+
+
+     
+     if(eyear>y)
+   {
+
+                test=false;
+                result2=result2 +"Dont select To date as   future date !";
+
+   }
+
+  
+   
+   
+    else if(y == eyear) 
+
+  {
+     
+    if(emonth>m)
+      
+       {
+                test=false;
+                result2=result2 +"Dont select To date as   future date !";
+
+       }
+    
+  
+    
+    
+    if(m == emonth)
+         {
+
+            if( edate>d)
+            { 
+                test=false;
+                result2=result2 +"Dont select To date as   future date !";
+
+
+            }
+            
+
+         }
+
+         else
+          {
+            
+             
+          }
+
+
+
+  }
+
+else
+ 
+	{
+              
+
+	}
+	
+	 if(result!= "" && result1!= "" )
+	 {
+	    result="";
+	 }
+	
+	
+	   if(test==false)
+	   {
+	      alert(result+"\n"+result1+"\n"+result2);
+	      return false;
+	   
+	   }
+	   
+	   
+	   if(test==true)
+	   {
+	 
+	   var cover = document.getElementById('shad');
+	   cover.style.display='block';
+       return true;
+	   
+	   
+	   }
+       
+	   return true;
+	   
+	   
+	  
+	}
+	
+
+function cover()
+{   
+       var cover = document.getElementById('shad');
+       cover.style.display='block';
+       return true;
+  
+
+}	
+	
+function recover()
+{
+var cover = document.getElementById('shad');
+cover.style.display='none';
+
+
+}
+	
+</script>
