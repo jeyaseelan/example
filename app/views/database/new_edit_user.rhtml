@@ -1,0 +1,36 @@
+<table cellpadding="0" colpadding="0" cellspacing="0" width="100%">
+	<tr><td width="100%">
+<table height="15px">
+<tr><td><span id="nameerror">&nbsp;</span></td></tr>
+<tr><td><span id="newpasserror"></span></td></tr>
+<tr><td><span id="cpasserror"></span></td></tr>
+</table></td></tr>
+
+
+<tr><td width="100%">
+<% form_tag({:action => "list_users"},{:name=>"form1"}) do %> 
+<table align="left" border="0" width="40%" cellspacing="1" cellpadding="3"> 
+<tr><td colspan=2 align="right"><%=link_to "Cancel",{:action=>'list_users'},{:onclick => "document.getElementById('fade').style.display='block';"}%></td></tr>
+<tr class="tableheading"><td width=100% colspan=2><center>Brand</center></td></tr>
+<tr class="tableinner"><td width="25%" >User </td><td><%=text_field "user","name",:id=>'name'%></td></tr>
+<tr class="tableinner"><td width="25%" >Password </td><td><%= password_field 'user', 'password',:id=>"newpass" %></td></tr>     
+<tr class="tableinner"><td width="25%" >Confirm Password</td><td><%= password_field 'user', 'password_confirmation',:id=>"conpass" %></td></tr>     
+<tr class="tableinner"><td width=100% colspan=3><center>
+<%=submit_tag "Save"%>
+</td></tr>
+</table>
+<SCRIPT LANGUAGE="JavaScript1.3">
+var name = new LiveValidation( "name",{ validMessage: " ",insertAfterWhatNode: "nameerror"});
+name.add( Validate.Presence,{failureMessage: "User name can't be blank"});
+
+var newpass = new LiveValidation( "newpass",{ validMessage: " ",insertAfterWhatNode: "newpasserror"});
+newpass.add( Validate.Presence ,{failureMessage : "* Password is Mandatory !" });
+newpass.add( Validate.Length, { minimum: 6, maximum: 15 ,tooLowMessage  : "* Password Should atleast has 6 character !", tooHighMessage :"* Password should not has more than 15 character !" } ); 
+
+var conpass = new LiveValidation( "conpass",{ validMessage: " ",insertAfterWhatNode: "cpasserror"});
+conpass.add( Validate.Presence,{failureMessage : "* Confirm Password is Mandatory !" } );
+conpass.add( Validate.Confirmation, { match: 'newpass',failureMessage: "* Password doesnot match with Confirm Password !" } );
+</script>
+<%end%>
+</td></tr>
+</table>

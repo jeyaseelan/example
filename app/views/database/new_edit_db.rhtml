@@ -1,0 +1,30 @@
+<table cellpadding="0" colpadding="0" cellspacing="0" width="100%">
+	<tr><td width="100%">
+<table height="15px">
+<tr><td><span id="nameerror">&nbsp;</span></td></tr>
+<tr><td><span id="usererror">&nbsp;</span></td></tr>
+</table></td></tr>
+
+
+<tr><td width="100%">
+<% form_tag({:action => "list_db"},{:name=>"form1"}) do %> 
+<table align="left" border="0" width="40%" cellspacing="1" cellpadding="3"> 
+<tr><td colspan=2 align="right"><%=link_to "Cancel",{:action=>'list_db'},{:onclick => "document.getElementById('fade').style.display='block';"}%></td></tr>
+<tr class="tableheading"><td width=100% colspan=2><center>Brand</center></td></tr>
+<tr class="tableinner"><td width="25%" >Database</td><td><%=text_field "db","name",:id=>'name'%></td></tr>
+
+<tr class="row4"><td width="25%" >Owner</td><td><%= select 'db', 'user', @users ,{:prompt=>true},{:id=>"user"} %></td></tr>
+
+<tr class="tableinner"><td width=100% colspan=3><center>
+<%=submit_tag "Save"%>
+</td></tr>
+</table>
+<SCRIPT LANGUAGE="JavaScript1.3">
+var name = new LiveValidation( "name",{ validMessage: " ",insertAfterWhatNode: "nameerror"});
+name.add( Validate.Presence,{failureMessage: "Db can't be blank"});
+var user = new LiveValidation( "user",{ validMessage: " ",insertAfterWhatNode: "usererror"});
+user.add( Validate.Presence,{failureMessage: "Owner can't be blank"});
+</script>
+<%end%>
+</td></tr>
+</table>

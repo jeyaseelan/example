@@ -1,0 +1,20 @@
+<td width="5%" valign="top">
+<%if @tables.length > 0%>
+<font Color="red" size="2">Database:<%=params[:database]%>
+<br>
+<% for table in @tables%>
+<%=link_to_remote(table[0],:update => "tablecontentsdiv" ,:url =>{:action=>"table_actions",
+                    :database=>params[:database],
+                    :table=>table[0]},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>
+<br>
+<%end%>
+<%else%>
+<font color="red" size="2">No Table under this database</font><br> <font Color="green" size="2"><%=params[:database]%></font>
+<%end%>
+</td>
+<div id="tablecontentsdiv">
+<td>
+</td>
+</div>

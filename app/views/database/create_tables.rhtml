@@ -1,0 +1,26 @@
+<table>
+<tr><td width="5%"></td><td width="95%">
+<font color="red"<h2>Upload sql file</h2></font>
+<table>
+<tr><td width="75%" colspan="2">
+<font color="red">
+<%if flash[:notice]!=nil%><%=flash[:notice]%><%flash[:notice]=nil%><%end%></font></td></tr>
+<%=form_tag ({:action => 'create_tables'}, 
+                        :multipart => true) %>
+<tr><font color="white" size="2">.</font><span id="fileerror"></span></tr>
+<tr><font color="white" size="2">.</font><span id="dberror"></span></tr>
+<tr><td><p><label for="upload_file">Select Database</label> : </td>
+<%@databas=["df","dfdf","sdfsdf"]%>
+<%puts @databas.inspect%>
+<td><%= select 'user', 'tt', @databases ,{:prompt=>true},{:id=>"db"} %> </td></tr>
+<tr><td>Select File</td><td><%= file_field 'upload', 'datafile', :id=>'file'%></p></td></tr>
+ <tr><td><%= submit_tag "Upload" %></td></tr>
+</table>
+<SCRIPT LANGUAGE="JavaScript1.3">
+var file = new LiveValidation( "file",{ validMessage: " ",insertAfterWhatNode: "fileerror"});
+file.add( Validate.Presence,{failureMessage: "Select File can't be blank"});
+var db = new LiveValidation( "db",{ validMessage: " ",insertAfterWhatNode: "dberror"});
+db.add( Validate.Presence,{failureMessage: "Select Database can't be blank"});
+</script>
+</td></tr>
+<table>

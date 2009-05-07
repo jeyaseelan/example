@@ -1,0 +1,26 @@
+<table width="100%">
+<td width="5%"><font Color="red" size="2">Database:<%=params[:database]%>=><font Color="green">Table:<%=params[:table]%></font></td>
+<tr><td valign="top" width="50%">
+<%=link_to params[:table], { :action=>"table_list_data",:database=>params[:database],:table=>params[:table] }, :target => '_blank'%>
+
+<%=link_to params[:table], { :action=>"table_list_data",:database=>params[:database],:table=>params[:table] }, :popup => [params[:table]],:scrollbars=>'yes'%>
+<!--<%=link_to_remote("Browse "+params[:table],:update => "table_data" ,:url =>{:action=>"table_list_data",:database=>params[:database],:table=>params[:table]},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>-->
+                
+ &nbsp;&nbsp;&nbsp;<%=link_to_remote("Structure of   "+params[:table],:update => "table_data" ,:url =>{:action=>"table_list_structure",:database=>params[:database],:table=>params[:table]},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>
+</td>
+
+
+</tr>
+<tr>
+<td>
+<div id="table_data">
+</div>
+</td>
+</tr>
+</table>
+
+

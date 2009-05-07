@@ -1,0 +1,20 @@
+
+<td colspan="2">
+<%= link_to_remote "save",:submit=>"table_data",
+               :url=>{:controller=>"database",:action=>'save_table_row',:edit_id=>params[:edit_id],:database=>params[:database],:table=>params[:table],:update=>params[:update]},:update=>params[:update],:submit=>"table_data"%>
+<%= link_to_remote "Cancel", 
+               :url=>{:controller=>"database",:action=>'cancel_new_record',:edit_id=>params[:edit_id],:database=>params[:database],:table=>params[:table],:update=>params[:update]},:update=>params[:update]%>
+</td>
+<% for table_content in @table_contents%>
+<% for i in 0..(@table_structure.length-1)%>
+<td width="5%">
+<%if table_content[i].to_s.length < 50%>
+<%=text_field "#{params[:table]}","#{@table_structure[i][0]}",:value=>table_content[i],:size=>15%>
+<%else%> 
+<%=text_area "#{params[:table]}","#{@table_structure[i][0]}",:value=>table_content[i]%>
+<%end%>
+<%puts params[:table]%>
+<%puts @table_structure[i][0]%>
+</td>
+<%end%>
+<%end%>

@@ -1,0 +1,69 @@
+<div id="table_structure_edit_new1">
+<%form_remote_tag(:update =>"table_data", :submit=>"table_data",:url => {:action =>"edit_structure",:database=>params[:database],:table=>params[:table],
+:structure=>params[:structure]},
+:html=>{:name=>"structure_edit_form"}) do%>
+ <% if flash[:note] and flash[:note]!="" %>
+<div style="overflow-x: auto;overflow-y: auto; width:400px; height:345;">
+<font color="red" size="2"><%=flash[:note]%> <%flash[:note]=nil%></font>
+</div>
+<%end%>
+<font color="white">.</font><span id="cnameerror">&nbsp;</span>
+<br>
+
+<font color="blue" size="2">Rename Column <%=params[:structure]%> &nbsp;to  </font>
+<br><%=text_field :table_new,:column,:id=>'cname'%>
+<br>
+<%=submit_tag "Save",:class => 'navigationbutton'%>
+<%if $A ==2 or $A==1%>
+<%= link_to_remote "Cancel", 
+               :url=>{:controller=>"database",:action=>'cancel_new_task'},:update=>"table_structure_edit_new1"%>
+
+<%else%>
+<%= link_to_remote "Cancel", 
+               :url=>{:controller=>"database",:action=>'cancel_new_task'},:update=>"table_structure_edit"%>
+
+<%end%>
+<SCRIPT LANGUAGE="JavaScript1.3">
+var cname = new LiveValidation( "cname",{ validMessage: " ",insertAfterWhatNode: "cnameerror"});
+cname.add( Validate.Presence,{failureMessage: "column name can't be blank"});
+</script>
+<%end%>
+
+
+ <% if flash[:note] and flash[:note]!="" %>
+ <font color="red"><%=flash[:note]%> <%flash[:note]=nil%></font>
+<%end%>
+</div>
+<table border=1>
+
+<%if flash[:error]!=nil%> <%flash[:error]=nil%>
+<tr> <td colspan="5" align="right"><%=link_to_remote( "New column",:url=>{:controller=>"database",:action=>"add_structure",:database=>params[:database],:table=>params[:table]},:update=>"table_structure_edit_new1")%></td></tr>
+<%if @table_structure.length > 0%>
+<% for table_structure in @table_structure%>
+<tr><td width="150px">
+<font color="blue" size="2">
+<%=table_structure[0]%></td><td width="150px">
+<font color="red" size="2"><%=table_structure[1]%></td>
+<td width="30px">
+<%= link_to_remote( (image_tag "/images/Edit.gif",:border=>0,:title=>'Edit'),:update => "table_structure_edit_new1",:url => {:action=>"edit_structure",:structure=>table_structure[0],:data_type=>table_structure[1],:database=>params[:database],:table=>params[:table]},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>
+</td>
+<td width="30px">
+<%= link_to_remote( (image_tag "/images/Edit.gif",:border=>0,:title=>'Edit'),:update => "table_structure_edit_new1",:url => {:action=>"edit_structure_all",:structure=>table_structure[0],:data_type=>table_structure[1],:database=>params[:database],:table=>params[:table]},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>
+</td>
+<td width="30px">
+<% @deletestructure="Do you want to delete "+table_structure[0]+" from table "+params[:table]%>
+<!--<%=link_to ((image_tag "/images/delete.gif",:border=>0,:title=>'Delete'), {:action=>"delete_structure",:structure=>table_structure[0]},:database=>params[:databse],:table=>params[:table],:confirm => @deletestructure )%>-->
+<%=link_to_remote ((image_tag "/images/delete.gif",:border=>0,:title=>'Delete'),:update =>"table_data",:url => {:action=>"delete_structure",:structure=>table_structure[0],:database=>params[:database],:table=>params[:table]},:confirm => @deletestructure )%>
+</td>
+</tr>
+<%end%>
+<%else%>
+<tr><td>No table exists </td></tr>
+
+<%end%>
+</table>
+<%end%>

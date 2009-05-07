@@ -1,0 +1,35 @@
+<div id="table_structure_edit"  style="overflow-x: auto;overflow-y: auto; width:400px; height:345;">
+ <% if flash[:note] and flash[:note]!="" %>
+<font color="red" size="2"><%=flash[:note]%> <%flash[:note]=nil%></font>
+<%end%>
+</div>
+<table border=1>
+<tr> <td colspan="5" align="right"><%=link_to_remote( "New column",:url=>{:controller=>"database",:action=>"add_structure",:database=>params[:database],:table=>params[:table]},:update=>"table_structure_edit")%></td></tr>
+<%if @table_structure.length > 0%>
+<% for table_structure in @table_structure%>
+<tr><td width="150x">
+<font color="blue" size="2">
+<%=table_structure[0]%></td><td width="150x">
+<font color="red" size="2"><%=table_structure[1]%></td>
+<td width="30x">
+<%= link_to_remote( (image_tag "/images/Edit.gif",:border=>0,:title=>'Rename column '),:update => "table_structure_edit",:url => {:action=>"edit_structure",:structure=>table_structure[0],:data_type=>table_structure[1],:database=>params[:database],:table=>params[:table]},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>
+</td>
+
+<td width="30x>
+<%= link_to_remote( (image_tag "/images/Edit.gif",:border=>0,:title=>'Change Datatype'),:update => "table_structure_edit",:url => {:action=>"edit_structure_all",:structure=>table_structure[0],:data_type=>table_structure[1],:database=>params[:database],:table=>params[:table]},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>
+</td>
+<td width="30x">
+<% @deletestructure="Do you want to delete "+table_structure[0]+" from table "+params[:table]%>
+<!--<%=link_to ((image_tag "/images/delete.gif",:border=>0,:title=>'Delete'), {:action=>"delete_structure",:structure=>table_structure[0]},:database=>params[:databse],:table=>params[:table],:confirm => @deletestructure )%>-->
+<%=link_to_remote ((image_tag "/images/delete.gif",:border=>0,:title=>'Delete'),:update =>"table_data",:url => {:action=>"delete_structure",:structure=>table_structure[0],:database=>params[:database],:table=>params[:table]},:confirm => @deletestructure )%>
+</td>
+</tr>
+<%end%>
+<%else%>
+<tr><td> <font color="red" size="2">No table exists </td></tr>
+<%end%>
+</table>

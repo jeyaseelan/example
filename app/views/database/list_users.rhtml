@@ -1,0 +1,86 @@
+<%= javascript_include_tag "prototype" %>
+<%= javascript_include_tag "livevalidation_prototype" %>
+<%= stylesheet_link_tag 'livevalidation' %>
+<br>
+<table width="100%" border="0">
+<tr><td width="2%">&nbsp;</td><td width="98%"><div id="new">
+<% if flash[:note] and flash[:note]!="" %>
+<font color="red" size=2><%=flash[:note]%> <%flash[:note]=nil%>
+<% end %>
+</div></td></tr>
+<tr><td width="2%">&nbsp;</td><td width="98%">
+<form action="gross_targets" id="gross_targets">
+<table align="left" border="0" width="64%" cellspacing="1" cellpadding="3">
+<tr><td align="left" colspan=2 class="topheadingtext" >Manage Brands</td><td align="right" colspan="5">
+
+<%=link_to_remote("New User",:update => "new",:url =>{:action=>"new_edit_user"},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%> </td></tr>
+
+<%i=0
+if @users.length > 0%>
+<tr><td class="snoth">S.No</td>
+<td class="nameth">User</td>
+
+
+<td class="nameactionth" width="10%">Action</td></tr>
+<% for container in @users%>
+<%if i%2==0
+stylename="row4"
+else
+stylename="inner"
+end%>
+<tr><td class="sno<%=stylename%>"><%=i+1%></td>
+<td class="code<%=stylename%>"><%=container[0]%></td>
+
+
+<td class="nameaction<%=stylename%>" width="6%">
+<% @deleteuser="Do you want to delete user"+container[0]%>
+ <%=link_to ((image_tag "/images/delete.gif",:border=>0,:title=>'Delete'), {:action=>"delete_user",:user=>container[0]},:confirm => @deleteuser )%>
+</td>
+<!--<td class="nameaction<%=stylename%>" width="4%">
+<%= link_to_remote( (image_tag "/images/Edit.gif",:border=>0,:title=>'Edit'),:update => "new",:url => {:action=>"new_edit_container",:id=>""},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>
+</td>
+-->
+</tr>
+<tr><td colspan=7 id="load<%=i.to_s%>" style="display:none;"><i><font color="blue" size=2><%= image_tag("spinner.gif",
+              :align => "absmiddle",
+              :border => 0,
+              :id => "spinner"
+               ) %>Loading please wait....</td></tr>
+<tr><td colspan=7 width="64%" id="<%=i.to_s%>"></td></tr>
+<%i=i+1
+end
+end%>
+</table></form></td></tr>
+    <tr><td width="2%">&nbsp;</td><td width="98%" align="left"> 
+</td></tr>      
+
+</table>
+<script>
+function check_numeric(d)
+{
+ var num=document.getElementById(d).value;
+ var sText=new String(num);
+ var ValidChars = "0123456789.";
+   var IsNumber=true;
+   var Char;
+
+ 
+   for (var i = 0; i < sText.length && IsNumber == true; i++) 
+      { 
+      Char = sText.charAt(i); 
+      if (ValidChars.indexOf(Char) == -1) 
+         {
+          IsNumber = false;
+          document.getElementById(d).value="";
+         
+         }
+      }
+ 
+ 
+ 
+}
+</script>

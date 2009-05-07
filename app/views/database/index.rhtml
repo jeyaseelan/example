@@ -1,0 +1,48 @@
+<html>
+<body>
+<!--<body onLoad="backButtonOverride()">-->
+
+
+   <% if flash[:note] and flash[:note]!="" %>
+          <center><div><font color="red" size=2> <%= flash[:note] %> <%flash[:note]=nil %> </font></div></center>
+   <% end %>
+      <% if flash[:notice] and flash[:notice]!="" %>
+          <center><div><font color="red" size=2> <%= flash[:notice] %> <%flash[:notice]=nil %> </font></div></center>
+   <% end %>
+<h3 align="center"> Click on the Actions (from above) that you want to do </h3>
+
+</body></html>
+
+	<script>
+function backButtonOverride()
+{
+  // Work around a Safari bug
+  // that sometimes produces a blank page
+  
+  setTimeout("backButtonOverrideBody()", 1);
+}
+
+function backButtonOverrideBody()
+{    k=true;
+  // Works if we backed up to get here
+  try {
+    history.forward(+1);
+      
+      
+    
+  } catch (e) {
+    // OK to ignore
+  }
+  // Every quarter-second, try again. The only
+  // guaranteed method for Opera, Firefox,
+  // and Safari, which don't always call
+  // onLoad but *do* resume any timers when
+  // returning to a page
+ 
+  setTimeout("backButtonOverrideBody()", 500);
+}
+
+	
+	
+	
+</script>

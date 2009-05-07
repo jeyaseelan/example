@@ -1,0 +1,80 @@
+    <%= javascript_include_tag "prototype" %>
+    <%= javascript_include_tag "livevalidation_prototype" %>
+    <%= javascript_include_tag "datepickercontrol" %>
+    <%= stylesheet_link_tag "common", :media => "all" %>
+    <%= stylesheet_link_tag "content", :media => "all" %>
+    <%= stylesheet_link_tag "table_content_properties", :media => "all" %>
+    <%= stylesheet_link_tag "table_heading_properties", :media => "all" %>
+    <%= stylesheet_link_tag "form_attributes_properties", :media => "all" %>
+    <%= stylesheet_link_tag "datepickercontrol_mozilla", :media => "all" %>
+    <%= stylesheet_link_tag "livevalidation", :media => "all" %>
+
+<div id="table_data">
+<br>
+<%@col_span=(@table_structure.length).to_i+2%>
+<div id="table_structure_edit">
+<% if flash[:note] and flash[:note]!="" %>
+<font color="red" size="2" ><%=flash[:note]%> <%flash[:note]=nil%></font>
+
+<%end%>
+</div>
+<table  border=1 bordercolor="green">
+
+
+<tr><td colspan=<%=@col_span%>>
+<%=link_to_remote( "New RECORD",:url=>{:controller=>"database",:action=>"add_table_data",:database=>params[:database],:table=>params[:table],:commit=>"New RECORD"},:update=>"table_structure_edit")%>
+&nbsp;&nbsp;
+<%=link_to_remote( "REFRESH",:url=>{:controller=>"database",:action=>"table_list_data",:database=>params[:database],:table=>params[:table],:page=>@page_number},:update=>"table_data")%>
+</td></tr>
+<%$ddatabase=params[:database]%>
+<%$ttable=params[:table]%>
+<%$ppage=params[:page]%>
+<tr><td colspan=<%=@col_span%>> <%= will_paginate @table_contents ,:params=>{:database=>params[:database],:table=>params[:table]}%></td></tr>
+<tr>
+<td colspan=2  width="10%"  size="2" align="center"><font color="blue" size="2">Actions</font></td>
+<% for table_structure in @table_structure%>
+ 
+<td width="5%">
+<font color="blue" size="2">
+<%=table_structure[0]%>
+</font>
+</td>
+<%z=1%>
+</td>
+<%end%>
+</tr>
+<%row_id=0%>
+
+
+<% for table_content in @table_contents%>
+<%row_div_id="row"+row_id.to_s%>
+<tr id=<%=row_div_id%> >
+
+<% for i in 0..(@table_structure.length-1)%>
+<%if i==0%>
+<td    align="center" width="5%">
+<%= link_to_remote( (image_tag "/images/Edit.gif",:border=>0,:title=>'Edit'),:update =>row_div_id,:url => {:action=>"table_edit_row",:database=>params[:database],:table=>params[:table],:edit_id=>table_content[i],:update =>row_div_id},:remote => {:update => 'table_data',:pagination => 'yes'},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>
+</td>
+<td  width="5%"  align="center">
+<% @deletestructure="Do you want to delete "+table_content[i]+" from table "+params[:table]%>
+<!--<%=link_to ((image_tag "/images/delete.gif",:border=>0,:title=>'Delete'), {:action=>"delete_structure",:structure=>table_structure[0]},:database=>params[:databse],:table=>params[:table],:confirm => @deletestructure )%>-->
+<%=link_to_remote ((image_tag "/images/delete.gif",:border=>0,:title=>'Delete'),:submit=>"table_data",:update =>"table_data",:url => {:action=>"table_list_data",:delete_content=>"yes",:delete_id=>table_content[i],:database=>params[:database],:table=>params[:table],:page=>@page_number},:remote => {:update => 'table_data',:pagination => 'yes'},:confirm => @deletestructure)%>
+</td>
+<%end%>
+<td>
+<font color="black" size="2">
+<%=table_content[i]%>&nbsp;
+</td>
+<%end%>
+</tr>
+<%row_id=row_id+1%>
+
+<%end%>
+
+
+
+
+</table>
+</div>

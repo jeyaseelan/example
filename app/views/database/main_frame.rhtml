@@ -1,0 +1,13 @@
+<div id="m" style="overflow-x: auto;overflow-y: auto; width:1000px; height:345;">
+<%if @databases.length > 0%>
+<% for container in @databases%>
+<%=link_to_remote(container[0],:update => "tablediv",:url =>{:action=>"list_tables",:database=>container[0]},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>
+<%end%>
+<%end%>
+</div>
+<table width="100%" id="tablediv">
+</table>
+
+

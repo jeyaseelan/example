@@ -1,0 +1,21 @@
+
+<td    align="center" width="5%">
+<% if flash[:note] and flash[:note]!="" %>
+<font color="red" size="0.25"><%=flash[:note]%> <%flash[:note]=nil%></font>
+<%end%>
+ <%= link_to_remote( (image_tag "/images/Edit.gif",:border=>0,:title=>'Edit'),:update =>params[:update],:url => {:action=>"table_edit_row",:database=>params[:database],:table=>params[:table],:edit_id=>params[:edit_id],:update =>params[:update]},:remote => {:update => 'table_data',:pagination => 'yes'},
+                    :loading=>"document.getElementById('fade').style.display='block';",
+                :loaded=>"document.getElementById('fade').style.display='none';")%>
+                </td>
+<td  width="5%"  align="center">
+<% @deletestructure="Do you want to delete "+params[:edit_id]+" from table "+params[:table]%>
+<%=link_to_remote ((image_tag "/images/delete.gif",:border=>0,:title=>'Delete'),:submit=>"table_data",:update =>"table_data",:url => {:action=>"table_list_data",:delete_content=>"yes",:delete_id=>params[:edit_id],:database=>params[:database],:table=>params[:table],:page=>$c_page},:remote => {:update => 'table_data',:pagination => 'yes'},:confirm => @deletestructure)%>
+</td>
+<% for table_content in @table_contents%>
+<% for i in 0..(@table_structure.length-1)%>
+<td width="5%">
+<font color="black" size="2" >
+<%=table_content[i]%>&nbsp; 
+</td>
+<%end%>
+<%end%>

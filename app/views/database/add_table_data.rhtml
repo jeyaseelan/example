@@ -1,0 +1,37 @@
+
+ <% if flash[:note] and flash[:note]!="" %>
+<font color="red"><%=flash[:note]%> <%flash[:note]=nil%></font>
+<%end%>
+<%if params[:save_type]=="again" or params[:commit]=="New RECORD" or flash[:test]!="sucessfully executed"%>
+<%flash[:test]=nil%>
+<%form_remote_tag(:update =>"table_structure_edit", :submit=>"table_data",:url => {:action =>"add_table_data",:database=>params[:database],:table=>params[:table]},
+:html=>{:name=>"structure_add_form"}) do%>
+<% for table_structure in @table_structure%>
+<br>
+<%=text_field "table_new","#{table_structure[0]}"%>
+<font color="blue" size="2" width="5%">
+<%=table_structure[0]%></font>
+<font color="blue" size="1" width="5%">
+(<%=table_structure[1]%>)</font>
+
+<%end%>
+<%=submit_tag "Add",:name=>"Add",:class=>'navigationbutton'%></td>
+<!--<%=submit_tag "Add again",:name=>"Add again",:class=>'navigationbutton'%>-->
+<%=link_to_remote( "Add again",:submit=>"table_structure_edit",:url=>{:controller=>"database",:action=>"add_table_data",:database=>params[:database],:table=>params[:table],:save_type=>"again"},:update=>"table_structure_edit",:class=>'navigationbutton')%>
+
+</td>
+
+
+
+
+<%if flash[:error]!=nil%>
+<%= link_to_remote "Cancel", 
+               :url=>{:controller=>"database",:action=>'cancel_new_task'},:update=>"table_structure_edit"%>
+<%else%>
+<%= link_to_remote "Cancel", 
+               :url=>{:controller=>"database",:action=>'cancel_new_task'},:update=>"table_structure_edit"%>
+<%end%>
+
+<%end%>
+
+<%end%>
