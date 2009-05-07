@@ -11,7 +11,7 @@
 <tr><td width="2%">&nbsp;</td><td width="98%">
 <form action="gross_targets" id="gross_targets">
 <table align="left" border="0" width="64%" cellspacing="1" cellpadding="3">
-<tr><td align="left" colspan=2 class="topheadingtext" >Manage Brands</td><td align="right" colspan="5">
+<tr><td align="left" colspan=3 class="topheadingtext" >Manage Database</td><td align="right">
 
 <%=link_to_remote("New database",:update => "new",:url =>{:action=>"new_edit_db"},
                     :loading=>"document.getElementById('fade').style.display='block';",
@@ -31,7 +31,7 @@ else
 stylename="inner"
 end%>
 <tr><td class="sno<%=stylename%>"><%=i+1%></td>
-<td class="code<%=stylename%>"><%=container[0]%></td>
+<td class="name<%=stylename%>"><%=container[0]%></td>
 <td  class="shortname<%=stylename%>"><%=container[1]%></td>
 
 <td class="nameaction<%=stylename%>" width="6%">
