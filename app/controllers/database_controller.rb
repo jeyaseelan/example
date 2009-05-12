@@ -1,4 +1,4 @@
-require 'rubygems'
+ require 'rubygems'
 require 'strscan'
 require("chartdirector")
 require 'spreadsheet/excel'
@@ -165,9 +165,9 @@ class DatabaseController < ApplicationController
         flash[:note]="Invalid filename/Path"
       end
       
-      @download_url = "http://#{@request.env['SERVER_NAME']}/#{path}"
-
-      send_file("#{@request.env['DOCUMENT_ROOT]'/#{path}",:type => "application/pdf")
+#      @download_url = "http://#{@request.env['SERVER_NAME']}/#{path}"
+#
+#      send_file("#{@request.env['DOCUMENT_ROOT]'/#{path}",:type => "application/pdf")
 
       redirect_to :action=>"list_db"
     rescue Exception => e
