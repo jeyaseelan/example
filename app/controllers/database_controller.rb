@@ -56,16 +56,12 @@ class DatabaseController < ApplicationController
     end
    end
     
-   def new_edit_db
-    conn = PGconn.connect($whose, 5432, '', '', '', "postgres", "postgres")
-    res = conn.exec("select pg_user.usename  from  pg_user;")
-    @users=[]
-    @users=res.to_a
-   end
    
-   def list_db
+   
+  def list_db
+    @databases=[]
     if params[:db]
-     if params[:db][:user]!=nil
+     if params[:db][:user]!=nil and params[:db][:user]!=""
       begin
        conn = PGconn.connect($whose, 5432, '', '', '', "postgres", "postgres")
        res = conn.exec("CREATE DATABASE #{params[:db][:name]} WITH OWNER = #{params[:db][:user]} ENCODING = 'UTF8';")
@@ -81,9 +77,103 @@ class DatabaseController < ApplicationController
       " pg_user.usename  FROM pg_database, pg_user "+
       "WHERE pg_database.datdba = pg_user.usesysid and pg_database.datname != 'postgres' and pg_database.datname != 'template1' "+
       " and pg_database.datname != 'template0' and pg_database.datname != 'template0';")
-    @databases=[]
     @databases=res.to_a
    end
+  
+  def new_edit_db
+    conn = PGconn.connect($whose, 5432, '', '', '', "postgres", "postgres")
+    res = conn.exec("select pg_user.usename  from  pg_user;")
+    @users=[]
+    @users=res.to_a
+  end
+  
+  def delete_db
+    begin
+     conn = PGconn.connect($whose, 5432, '', '', '', "postgres", "postgres")
+     res=conn.exec("drop database #{params[:db]};")
+     flash[:note]="Successfully Deleted"
+     redirect_to :action=>"list_db"
+    rescue Exception=>e
+      flash[:note]=e
+      redirect_to :action=>"list_db"
+    end
+  end
+  
+  def backup_db
+    begin
+    puts params.inspect
+    
+    @file_name=""
+    @output_path=""
+#    @file_name=params[:file_name] if params[:file_name] and params[:file_name]!=""
+#    @output_path=params[:output_path] if params[:output_path] and params[:output_path]!=""
+    render :layout=>false
+    rescue Exception=>e
+    end
+  end
+  
+  def backup_type
+    @show_submit=false
+    @data=false
+    @schema=false
+    puts params.inspect
+    if params[:backup] and params[:backup]=="true"
+      if params[:from] and params[:from]=="plain"
+        @show_submit=false 
+        if params[:from1] and params[:from1]!=""
+         @show_submit=true
+         @data=true if params[:from1]=="only_data"
+         @schema=true if params[:from1]=="only_schema"
+        end
+        else
+         @show_submit=true
+      end
+    end
+    render :layout=>false
+  end
+  
+  def update_backup
+    begin
+      extension="sql"
+      conditions=""
+      if params[:file_name] and params[:file_name].strip!="" and params[:output_path] and params[:output_path].strip!=""
+      if params[:backup] and params[:backup]=="backup"
+        extension="backup" 
+        conditions="-F c -b -v -f"
+      end
+  
+      if params[:backup] and params[:backup]=="tar"
+        extension="tar" 
+        conditions="-F t -b -v -f"
+      end
+  
+      conditions="-F p -a -D -v -f" if params[:backup1] and params[:backup1]=="only_data"
+      conditions="-F p -s -s -D -v -f" if params[:backup1] and params[:backup1]=="only_schema"
+     
+      fname=params[:file_name].strip
+      path=params[:output_path].strip
+      dname=params[:database_name].strip
+      path[0, 1]="" if path[0, 1]=="/" #or path[0, 1]=="\"
+      path[-1, 1]="" if path[-1, 1]=="/"
+     
+      path="/#{path}/#{fname}.#{extension}"
+       puts path
+      str="pg_dump -i -h #{$whose} -p 5432 -U postgres #{conditions} '"+path.to_s+"' #{dname}"
+      system(str)
+      flash[:note]="Database was dumped and stored in #{params[:output_path].strip}"
+      else
+        flash[:note]="Invalid filename/Path"
+      end
+      
+      @download_url = "http://#{@request.env['SERVER_NAME']}/#{path}"
+
+      send_file("#{@request.env['DOCUMENT_ROOT]'/#{path}",:type => "application/pdf")
+
+      redirect_to :action=>"list_db"
+    rescue Exception => e
+      puts e
+    end
+  end
   
    def list_users
     if params[:user]
@@ -105,7 +195,7 @@ class DatabaseController < ApplicationController
   
    def new_edit_user
     conn = PGconn.connect($whose, 5432, '', '', '', "postgres", "postgres")
-    res = conn.exec("select pg_user.usename  from  pg_user;")
+    res = conn.exec("select distinct pg_user.usename from  pg_user;")
     @users=[]
     @users=res.to_a
    end
@@ -122,18 +212,7 @@ class DatabaseController < ApplicationController
     end
    end
 
-   def delete_db
-    begin
-     conn = PGconn.connect($whose, 5432, '', '', '', "postgres", "postgres")
-     res=conn.exec("drop database #{params[:db]};")
-     flash[:note]="Successfully Deleted"
-     redirect_to :action=>"list_db"
-    rescue Exception=>e
-     flash[:note]=e
-     redirect_to :action=>"list_db"
-    end
-   end
-
+   
    def check_acess
     conn = PGconn.connect($whose, 5432, '', '', '', "malathi", "")
     res = conn.exec("select pg_user.usename  from  pg_user;")
