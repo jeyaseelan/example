@@ -11,7 +11,7 @@
 <tr><td width="2%">&nbsp;</td><td width="98%">
 <form action="gross_targets" id="gross_targets">
 <table align="left" border="0" width="64%" cellspacing="1" cellpadding="3">
-<tr><td align="left" colspan=3 class="topheadingtext" >Manage Database</td><td align="right">
+<tr><td align="left" colspan=3 class="topheadingtext" >Manage Database</td><td align="right" colspan=2>
 
 <%=link_to_remote("New database",:update => "new",:url =>{:action=>"new_edit_db"},
                     :loading=>"document.getElementById('fade').style.display='block';",
@@ -23,7 +23,7 @@ if @databases.length > 0%>
 <td class="nameth">Database</td>
 <td class="codeth">Owner</td>
 
-<td class="nameactionth"  width="10%">Action</td></tr>
+<td class="nameactionth"  width="10%" colspan=2>Action</td></tr>
 <% for container in @databases%>
 <%if i%2==0
 stylename="row4"
@@ -38,11 +38,11 @@ end%>
 <% @deletedb="Do you want to delete user"+container[0]%>
  <%=link_to ((image_tag "/images/delete.gif",:border=>0,:title=>'Delete'), {:action=>"delete_db",:db=>container[0]},:confirm => @deletedb )%>
 </td>
-<!--<td class="nameaction<%=stylename%>" width="4%">
-<%= link_to_remote( (image_tag "/images/Edit.gif",:border=>0,:title=>'Edit'),:update => "new",:url => {:action=>"new_edit_container",:id=>""},
+<td class="nameaction<%=stylename%>" width="4%">
+<%=link_to_remote("Backup",:update => "new",:url =>{:action=>"backup_db",:database_name=>container[0]},
                     :loading=>"document.getElementById('fade').style.display='block';",
                 :loaded=>"document.getElementById('fade').style.display='none';")%>
-</td>--></tr>
+</td></tr>
 <tr><td colspan=7 id="load<%=i.to_s%>" style="display:none;"><i><font color="blue" size=2><%= image_tag("spinner.gif",
               :align => "absmiddle",
               :border => 0,
@@ -77,8 +77,6 @@ function check_numeric(d)
          
          }
       }
- 
- 
  
 }
 </script>

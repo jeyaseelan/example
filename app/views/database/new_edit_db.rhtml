@@ -11,7 +11,7 @@
 <table align="left" border="0" width="40%" cellspacing="1" cellpadding="3"> 
 <tr><td colspan=2 align="right"><%=link_to "Cancel",{:action=>'list_db'},{:onclick => "document.getElementById('fade').style.display='block';"}%></td></tr>
 <tr class="tableheading"><td width=100% colspan=2><center>Brand</center></td></tr>
-<tr class="tableinner"><td width="25%" >Database</td><td><%=text_field "db","name",:id=>'name'%></td></tr>
+<tr class="tableinner"><td width="25%" >Database</td><td><%=text_field "db","name",::id=>'name'%></td></tr>
 
 <tr class="row4"><td width="25%" >Owner</td><td><%= select 'db', 'user', @users ,{:prompt=>true},{:id=>"user"} %></td></tr>
 

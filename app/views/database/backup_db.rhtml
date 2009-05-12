@@ -1,0 +1,35 @@
+<%form_tag ({:action=>"update_backup",:database_name=>params[:database_name]},{:name => "form1"}) do%>
+<table width="25%" border=0>
+<tr><td colspan=2>
+<table height="10px">
+<tr><td><span id="fnameerror">&nbsp;</span></td></tr>
+<tr><td><span id="opatherror">&nbsp;</span></td></tr>
+</table></td></tr>
+<tr class="text"><td>FileName</td><td><%=text_field_tag :file_name,@file_name,:id=>"fname"%></td></tr>
+<tr><td class="text">Output Path</td><td><%=text_field_tag :output_path,@output_path,:id=>"opath"%></td></tr>
+<tr><td colspan=2>
+<table>
+<tr class="text"><td width="8%">
+<input type="radio" name="backup" id = "backup_id" value="backup" onClick="<%= remote_function(:url => {:action => 'backup_type',:from=>'backup'}, :loading => "$('loading').show( )",:complete => "$('loading').hide( )", :update => 'backup_type_update', :with => "'backup='+ this.checked")%>" >
+.Backup</td>
+<td width="6%">
+<input type="radio" name="backup" id = "backup_id" value="tar" onClick="<%= remote_function(:url => {:action => 'backup_type',:from=>'tar'}, :loading => "$('loading').show( )",:complete => "$('loading').hide( )", :update => 'backup_type_update', :with => "'backup='+ this.checked")%>" >
+.Tar</td>
+<td width="8%">
+<input type="radio" name="backup" id = "backup_id" value="plain" onClick="<%= remote_function(:url => {:action => 'backup_type',:from=>'plain'}, :loading => "$('loading').show( )",:complete => "$('loading').hide( )", :update => 'backup_type_update', :with => "'backup='+ this.checked")%>" >
+Plain</td></tr>
+</table></td></tr>
+<tr><td colspan=2><div id="backup_type_update"></div>
+</td></tr>
+</table>
+
+<SCRIPT LANGUAGE="JavaScript1.3">
+var fname = new LiveValidation( "fname",{ validMessage: "",insertAfterWhatNode: "fnameerror"});
+fname.add( Validate.Presence,{failureMessage: "* Please enter file name "} );
+
+var opath = new LiveValidation( "opath",{ validMessage: " ",insertAfterWhatNode: "opatherror"});
+opath.add( Validate.Presence,{failureMessage: "* Please enter output path "});
+
+</script>
+<%end%>
+<br>

@@ -1,0 +1,21 @@
+<table width="100%">
+<tr class="text"><td width="8%">
+<%if params[:from] and params[:from]=="plain"%>
+<table><tr><td width="15%">
+<%if @data%>
+<input type="radio" name="backup1" checked id ="only_data_id" value="only_data" onClick="<%= remote_function(:url => {:action => 'backup_type',:from=>'plain',:from1=>'only_data'}, :loading => "$('loading').show( )",:complete => "$('loading').hide( )", :update => 'backup_type_update', :with => "'backup='+ this.checked")%>" >
+<%else%>
+<input type="radio" name="backup1" id="only_data_id" value="only_data" onClick="<%= remote_function(:url => {:action => 'backup_type',:from=>'plain',:from1=>'only_data'}, :loading => "$('loading').show( )",:complete => "$('loading').hide( )", :update => 'backup_type_update', :with => "'backup='+ this.checked")%>" >
+<%end%>
+.Only Data</td>
+<td width="15%">
+<%if @schema%>
+<input type="radio" name="backup1" checked id ="only_schema_id" value="only_schema" onClick="<%= remote_function(:url => {:action => 'backup_type',:from=>'plain',:from1=>'only_schema'}, :loading => "$('loading').show( )",:complete => "$('loading').hide( )", :update => 'backup_type_update', :with => "'backup='+ this.checked")%>" >
+<%else%>
+<input type="radio" name="backup1" id="only_schema_id" value="only_schema" onClick="<%= remote_function(:url => {:action => 'backup_type',:from=>'plain',:from1=>'only_schema'}, :loading => "$('loading').show( )",:complete => "$('loading').hide( )", :update => 'backup_type_update', :with => "'backup='+ this.checked")%>" >
+<%end%>
+.Only Schema</td></tr></table>
+<%end%>
+</td></tr>
+<tr class="text"><td align="center"><%if @show_submit%><%=submit_tag "Backup"%><%end%></td></tr>
+</table>
